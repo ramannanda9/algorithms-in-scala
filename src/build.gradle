@@ -1,0 +1,42 @@
+//noinspection GroovyAssignabilityCheck
+apply plugin: 'scala'
+apply plugin: 'idea'
+
+dependencies{
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.12.2'
+    compile group: 'org.scala-lang', name: 'scala-reflect', version: '2.12.2'
+    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    testCompile group: 'org.scalatest', name: 'scalatest_2.12', version: '3.0.3'
+    compile group: 'com.typesafe.scala-logging', name: 'scala-logging_2.12', version: '3.7.1'
+
+}
+
+        repositories{
+            mavenCentral()
+        }
+
+sourceSets{
+    main{
+        scala{
+            srcDirs=['src/main/scala']
+        }
+        resources{srcDirs=['src/main/resources']}
+    }
+    test{
+        scala{
+            srcDirs=['src/test/scala']
+        }
+        resources{
+            srcDirs=['src/test/resources']
+        }
+    }
+}
+task scalaTest(dependsOn: ['testClasses'], type: JavaExec) {
+  main = 'org.scalatest.tools.Runner'
+  args = ['-R', 'build/classes/test', '-o']
+  classpath = sourceSets.test.runtimeClasspath
+}
+
+test.dependsOn scalaTest

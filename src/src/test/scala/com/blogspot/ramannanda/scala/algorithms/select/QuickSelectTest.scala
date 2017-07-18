@@ -1,7 +1,7 @@
 package com.blogspot.ramannanda.scala.algorithms.select
 
 import com.typesafe.scalalogging.LazyLogging
-import org.scalatest.{FlatSpec, FunSuite, Matchers}
+import org.scalatest.{FlatSpec, FunSuite, Inside, Matchers}
 
 /**
   * Created by Ramandeep Singh on 7/10/17.
@@ -52,6 +52,5 @@ class QuickSelectTest extends FlatSpec with Matchers with LazyLogging{
   it should "find 5th order element to be E" in{
     qsStringString.selectNthElement(dataStringKey,5) should be ("E")
   }
-
 
 }

@@ -2,3 +2,5 @@
 **/build
 **/.gradle
 **/*.log
+**/*.sc
+**/*.DS_Store

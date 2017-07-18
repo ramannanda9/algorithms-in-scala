@@ -6,7 +6,7 @@ import scala.util.Random
 /**
   * Created by Ramandeep Singh on 7/10/17.
   */
- class QuickSelect[K, V](implicit ev: Ordering[K]) extends Selectable[K, V] {
+class QuickSelect[K, V](implicit ev: Ordering[K]) extends Selectable[K, V] {
 
   /**
     * It shuffles the input array
@@ -14,7 +14,7 @@ import scala.util.Random
     * @param data the data array
     * @return the shuffled array
     */
-  private def shuffle(data: Array[(K, V)]): Array[(K, V)] = {
+  private[this] def shuffle(data: Array[(K, V)]): Array[(K, V)] = {
     Random.shuffle(data.toSeq).toArray
   }
 
@@ -41,11 +41,11 @@ import scala.util.Random
         selectNthElementRec(data.slice(0, partIndex), index)
       }
     }
-    if (index < 1 || index > data.length){
-      throw new IndexOutOfBoundsException("Invalid Order element "+index)
+    if (index < 1 || index > data.length) {
+      throw new IndexOutOfBoundsException("Invalid Order element " + index)
     }
     val shuffledData = shuffle(data)
-    selectNthElementRec(shuffledData,index-1)
+    selectNthElementRec(shuffledData, index - 1)
   }
 
   /**
@@ -55,7 +55,7 @@ import scala.util.Random
     * @param data the data array
     * @return the pivot index and the data array
     */
- private def partition(data: Array[(K, V)]): (Int, Array[(K, V)]) = {
+  private[this] def partition(data: Array[(K, V)]): (Int, Array[(K, V)]) = {
     import ev.mkOrderingOps
     val pivot = data(data.length - 1)._1
     var pivotIndex = data.length - 1

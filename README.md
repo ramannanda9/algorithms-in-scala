@@ -1,4 +1,6 @@
 ## Algorithms in Scala
+[![Build Status](https://travis-ci.org/ramannanda9/algorithms-in-scala.svg?branch=master)](https://travis-ci.org/ramannanda9/algorithms-in-scala)
+
 * This repository contains or will contain different algorithms for **searching, sorting, selecting and dynamic programming**.
 * This is just an exercise in learning scala.
 * And recognizing the shortcomings of not having pass by reference.

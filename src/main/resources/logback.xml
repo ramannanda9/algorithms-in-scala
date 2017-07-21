@@ -19,7 +19,8 @@
   <root level="error">
     <appender-ref ref="STDOUT"/>
   </root>
-  <logger level="DEBUG" name="com.blogspot.ramannanda.*">
+  <logger level="debug" name="com.blogspot.ramannanda.*">
     <appender-ref ref="FILE" />
+    <appender-ref ref="STDOUT"/>
   </logger>
 </configuration>

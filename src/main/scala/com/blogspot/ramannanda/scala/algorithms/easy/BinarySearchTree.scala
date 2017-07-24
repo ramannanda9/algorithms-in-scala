@@ -1,12 +1,9 @@
 package com.blogspot.ramannanda.scala.algorithms.easy
 
 import com.blogspot.ramannanda.scala.algorithms.ds.{BinaryTree, EmptyBinaryTree, Node}
-import com.sun.tools.hat.internal.model.Root
 import com.typesafe.scalalogging.LazyLogging
 
-import scala.annotation.tailrec
-import scala.collection.mutable.Queue
-import scala.collection.mutable.Map
+import scala.collection.mutable.{Map, Queue}
 
 
 /**

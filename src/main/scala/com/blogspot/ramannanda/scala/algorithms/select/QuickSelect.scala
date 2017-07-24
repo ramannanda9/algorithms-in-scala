@@ -29,9 +29,9 @@ class QuickSelect[K, V](implicit ev: Ordering[K]) extends Selectable[K, V] {
   @throws[IndexOutOfBoundsException]
   override def selectNthElement(data: Array[(K, V)], index: Int): V = {
     @tailrec def selectNthElementRec(data: Array[(K, V)], index: Int): V = {
-      val (partIndex, partArray) = partition(data)
+      val partIndex = partition(data)
       if (index == partIndex) {
-        partArray(index)._2
+        data(index)._2
       }
       else if (index > partIndex) {
         //since 1 element is lost
@@ -49,13 +49,12 @@ class QuickSelect[K, V](implicit ev: Ordering[K]) extends Selectable[K, V] {
   }
 
   /**
-    * It does a partition pass through the array. The gripe here is that scala does not
-    * support pass by reference, so copies are being sent and returned.
+    * It does a partition pass through the array.
     *
     * @param data the data array
-    * @return the pivot index and the data array
+    * @return the pivot index
     */
-  private[this] def partition(data: Array[(K, V)]): (Int, Array[(K, V)]) = {
+  private[this] def partition(data: Array[(K, V)]): Int = {
     import ev.mkOrderingOps
     val pivot = data(data.length - 1)._1
     var pivotIndex = data.length - 1
@@ -73,7 +72,7 @@ class QuickSelect[K, V](implicit ev: Ordering[K]) extends Selectable[K, V] {
     val temp = data(pivotIndex)
     data(pivotIndex) = data(data.length - 1)
     data(data.length - 1) = temp
-    (pivotIndex, data)
+    pivotIndex
   }
 }
 

@@ -29,13 +29,84 @@ trait BinaryTree[+V] {
     }
     getMax(this) - 1
   }
+
 }
 
 
-case class Node[V](data: V, var l: BinaryTree[V], var r: BinaryTree[V], var p: Node[V]) extends BinaryTree[V]
+case class Node[V](data: V, var l: BinaryTree[V], var r: BinaryTree[V], var p: Node[V]) extends BinaryTree[V] {
+  override def hashCode = data.hashCode()
+
+  override def toString = s"Data = ${data}"
+}
 
 
 case object EmptyBinaryTree extends BinaryTree[Nothing]
+
+object BinaryTree {
+
+  def mirror[V](t: BinaryTree[V]): BinaryTree[V] = t match {
+    case node: Node[V] => {
+      val l = node.l
+      node.l = mirror(node.r)
+      node.r = mirror(l)
+      node
+    }
+    case EmptyBinaryTree => {
+      EmptyBinaryTree
+    }
+
+  }
+
+  def inOrder[V](rootNode: Node[V]): String = {
+    val sb = new StringBuilder()
+    def inOrderRec(t: BinaryTree[V]): Unit = {
+      t match {
+        case node: Node[V] => {
+          inOrderRec(node.l)
+          sb.append("(" + node.data.toString + ")")
+          inOrderRec(node.r)
+        }
+        case EmptyBinaryTree =>
+      }
+    }
+    inOrderRec(rootNode)
+    sb.toString()
+  }
+
+  def preOrder[V](rootNode: Node[V]): String = {
+    val sb = new StringBuilder()
+    def preOrderRec(t: BinaryTree[V]): Unit = {
+      t match {
+        case node: Node[V] => {
+          sb.append("(" + node.data.toString + ")")
+          preOrderRec(node.l)
+          preOrderRec(node.r)
+
+        }
+        case EmptyBinaryTree =>
+      }
+    }
+    preOrderRec(rootNode)
+    sb.toString()
+  }
+
+  def postOrder[V](rootNode: Node[V]): String = {
+    val sb = new StringBuilder()
+    def postOrderRec(t: BinaryTree[V]): Unit = {
+      t match {
+        case node: Node[V] => {
+          postOrderRec(node.l)
+          postOrderRec(node.r)
+          sb.append("(" + node.data.toString + ")")
+        }
+        case EmptyBinaryTree =>
+      }
+    }
+    postOrderRec(rootNode)
+    sb.toString()
+  }
+
+}
 
 
 

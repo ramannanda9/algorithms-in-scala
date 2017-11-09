@@ -4,3 +4,4 @@
 **/*.log
 **/*.sc
 **/*.DS_Store
+**/out

@@ -36,7 +36,7 @@ trait BinaryTree[+V] {
 case class Node[V](data: V, var l: BinaryTree[V], var r: BinaryTree[V], var p: Node[V]) extends BinaryTree[V] {
   override def hashCode = data.hashCode()
 
-  override def toString = s"Data = ${data}"
+  override def toString = s"Data = $data"
 }
 
 

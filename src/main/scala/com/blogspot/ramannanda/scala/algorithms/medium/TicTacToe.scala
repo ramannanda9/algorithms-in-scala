@@ -8,18 +8,18 @@ case class TicTacToe(aiSymbol: Char = 'x', playerSymbol: Char = 'o') {
     for (row <- 0 until 3) {
       val score = checkThreeInSeq(board(row))
       if (score != 0) {
-        if (score > 0) return score - depth else score+depth
+        if (score > 0) return score - depth else score + depth
       }
     }
     for (col <- 0 until 3) {
       val score = checkThreeInSeq(board.map(_ (col)))
       if (score != 0) {
-        if (score > 0) return score - depth else score+depth
+        if (score > 0) return score - depth else score + depth
       }
     }
     val score = checkDiagonals(board)
     if (score != 0) {
-      if (score > 0) return score - depth else return score+depth
+      if (score > 0) return score - depth else return score + depth
     }
     0
 
@@ -63,7 +63,9 @@ case class TicTacToe(aiSymbol: Char = 'x', playerSymbol: Char = 'o') {
   }
 
 
-  def minimax(board: Board, depth: Int, isMax: Boolean): Int = {
+  def minimax(board: Board, depth: Int, isMax: Boolean, alpha: Int, beta: Int): Int = {
+    var alphaVar = alpha
+    var betaVar = beta
     val score = getScore(board, depth)
     if (score != 0) {
       return score
@@ -75,8 +77,10 @@ case class TicTacToe(aiSymbol: Char = 'x', playerSymbol: Char = 'o') {
         for (j <- 0 until 3) {
           if (board(i)(j).equals('_')) {
             board(i)(j) = aiSymbol
-            best = Math.max(best, minimax(board, depth + 1, false))
+            best = Math.max(best, minimax(board, depth + 1, false, alphaVar, betaVar))
+            alphaVar = Math.max(best, alphaVar)
             board(i)(j) = '_'
+            if (betaVar < alphaVar) return best
           }
         }
       }
@@ -88,8 +92,10 @@ case class TicTacToe(aiSymbol: Char = 'x', playerSymbol: Char = 'o') {
         for (j <- 0 until 3) {
           if (board(i)(j).equals('_')) {
             board(i)(j) = playerSymbol
-            best = Math.min(best, minimax(board, depth + 1, false))
+            best = Math.min(best, minimax(board, depth + 1, false, alphaVar, betaVar))
+            betaVar = Math.min(betaVar, best)
             board(i)(j) = '_'
+            if (betaVar < alphaVar) return best
           }
         }
       }
@@ -104,7 +110,7 @@ case class TicTacToe(aiSymbol: Char = 'x', playerSymbol: Char = 'o') {
       for (j <- 0 until 3) {
         if (board(i)(j).equals('_')) {
           board(i)(j) = aiSymbol
-          val scoreVal = minimax(board, 0, false)
+          val scoreVal = minimax(board, 0, false,-100,100)
           board(i)(j) = '_'
           if (scoreVal > bestScore) {
             bestScore = scoreVal

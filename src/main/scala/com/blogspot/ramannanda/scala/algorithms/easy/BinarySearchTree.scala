@@ -94,7 +94,7 @@ class BinarySearchTree[V](val rootNode: Node[V])(implicit ev: Ordering[V]) exten
     child match {
       case childNode: Node[D] => {
         queue.enqueue(childNode)
-        val level = levelsMap.get(node).get
+        val level = levelsMap(node)
         levelsMap.getOrElseUpdate(childNode, level + 1)
         val existingSum = levelsSumMap.getOrElse(level + 1, ev.zero)
         levelsSumMap.update(level + 1, existingSum + childNode.data)

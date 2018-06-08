@@ -9,14 +9,13 @@ object BridgeHand {
   def evaluateBridgeHand(cards: Array[Card]): Unit = {
     val cardsGrouped = cards.groupBy(_.cardSuit)
     val sumCount = cards.map(cardCounts).sum
-    val subtractCt = subtractCount(cardsGrouped)
-    val ignoreRules = rules567(cardsGrouped)
-    val finalCount = sumCount - subtractCt + ignoreRules
+    val (ignoreRulesCt, subtractCt) = addSubtractCount(cardsGrouped)
+    val finalCount = sumCount - subtractCt + ignoreRulesCt
     if (finalCount < 14) {
       println("PASS")
       return
     }
-    if ((finalCount - ignoreRules) >= 16 && areAllGroupsStopped(cardsGrouped)) {
+    if ((finalCount - ignoreRulesCt) >= 16 && areAllGroupsStopped(cardsGrouped)) {
       println("BID NO-TRUMP")
       return
     }
@@ -35,21 +34,9 @@ object BridgeHand {
     }
   }
 
-  private def rules567(cardGroups: Map[Char, Array[Card]]): Int = {
-    var toAdd = 0
-    for (kv <- cardGroups) {
-      if (kv._2.length == 2) {
-        toAdd = toAdd + 1
-      }
-      else if (kv._2.length == 1) {
-        toAdd = toAdd + 1
-      }
-    }
-    toAdd = toAdd + (4 - cardGroups.size)
-    toAdd
-  }
 
-  private def subtractCount(cardGroups: Map[Char, Array[Card]]): Int = {
+  private def addSubtractCount(cardGroups: Map[Char, Array[Card]]): (Int, Int) = {
+    var toAdd = 0
     var toSubtract = 0
     for (kv <- cardGroups) {
       for (card <- kv._2) {
@@ -60,8 +47,15 @@ object BridgeHand {
           case _ => ""
         }
       }
+      if (kv._2.length == 2) {
+        toAdd = toAdd + 1
+      }
+      else if (kv._2.length == 1) {
+        toAdd = toAdd + 1
+      }
     }
-    toSubtract
+    toAdd = toAdd + (4 - cardGroups.size)
+    (toAdd, toSubtract)
   }
 
   private def areAllGroupsStopped(cardGroups: Map[Char, Array[Card]]): Boolean = {

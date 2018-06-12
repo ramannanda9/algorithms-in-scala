@@ -4,8 +4,6 @@ import scala.util.control.Breaks._
 
 object BridgeHand {
 
-  case class Card(cardFace: Char, cardSuit: Char)
-
   def evaluateBridgeHand(cards: Array[Card]): Unit = {
     val cardsGrouped = cards.groupBy(_.cardSuit)
     val sumCount = cards.map(cardCounts).sum

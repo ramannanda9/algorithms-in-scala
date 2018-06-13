@@ -1,4 +1,6 @@
-package com.blogspot.ramannanda.scala.algorithms.cp3.adhoc
+package com.blogspot.ramannanda.scala.algorithms.cp3.adhoc.cards
+
+import com.blogspot.ramannanda.scala.algorithms.cp3.adhoc.Card
 
 import scala.util.Try
 

@@ -26,7 +26,7 @@ trait Monad[F[_]] {
   }
 
   def _flatMap[A, B](fa: F[A])(f: A => F[B]): F[B] = {
-    compose((_: Unit) => fa, f)()
+    compose((_: Unit) => fa, f)(())
   }
 
   def flatMap[A, B](fa: F[A])(f: A => F[B]): F[B]
@@ -105,7 +105,7 @@ object Monad {
 
   case class State[S, A](run: S => (A, S))
 
-  def stateMonad[S]: Monad[State[S, _]] = new Monad[({type f[x] = State[S, x]})#f] {
+  def stateMonad[S] = new Monad[({type f[x] = State[S, x]})#f] {
     override def unit[A](a: => A): State[S, A] = State(s => (a, s))
 
     override def flatMap[A, B](fa: State[S, A])(f: A => State[S, B]): State[S, B] = {
@@ -121,7 +121,7 @@ object Monad {
 case class Reader[R, A](run: R => A)
 
 object Reader {
-  def readerMonad[R]: Monad[Reader[R, _]] = new Monad[({type f[x] = Reader[R, x]})#f] {
+  def readerMonad[R] = new Monad[({type f[x] = Reader[R, x]})#f] {
     def unit[A](a: => A): Reader[R, A] = Reader(_ => a)
 
     def flatMap[A, B](st: Reader[R, A])(f: A => Reader[R, B]): Reader[R, B] = {

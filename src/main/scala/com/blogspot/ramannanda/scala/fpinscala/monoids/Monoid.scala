@@ -1,7 +1,5 @@
 package com.blogspot.ramannanda.scala.fpinscala.monoids
 
-import scala.annotation.tailrec
-
 trait Monoid[A] {
   def zero: A
 

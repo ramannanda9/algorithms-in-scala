@@ -19,6 +19,14 @@ trait Functor[F[_]] {
   }
 }
 
+object Functor {
+  val functorList = new Functor[List] {
+    override def map[A, B](a: List[A])(f: A => B): List[B] = {
+      a.map(f)
+    }
+  }
+}
+
 trait Monad[F[_]] {
 
   def map[A, B](fa: F[A])(f: A => B): F[B] = {
@@ -111,7 +119,7 @@ object Monad {
     override def flatMap[A, B](fa: State[S, A])(f: A => State[S, B]): State[S, B] = {
       State(s => {
         val (a, s1) = fa.run(s)
-         f(a).run(s1)
+        f(a).run(s1)
       })
     }
   }
@@ -127,7 +135,7 @@ object Reader {
     def flatMap[A, B](st: Reader[R, A])(f: A => Reader[R, B]): Reader[R, B] = {
       Reader(r => {
         val a = st.run(r)
-         f(a).run(r)
+        f(a).run(r)
       })
     }
   }

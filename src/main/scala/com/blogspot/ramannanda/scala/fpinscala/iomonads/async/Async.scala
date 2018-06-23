@@ -2,7 +2,6 @@ package com.blogspot.ramannanda.scala.fpinscala.iomonads.async
 
 import com.blogspot.ramannanda.scala.fpinscala.applicative.Monad
 import com.blogspot.ramannanda.scala.fpinscala.parallelism.Par
-import com.blogspot.ramannanda.scala.fpinscala.parallelism.Par.Par
 
 import scala.annotation.tailrec
 

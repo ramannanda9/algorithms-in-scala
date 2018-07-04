@@ -1,38 +1,41 @@
 package com.blogspot.ramannanda.scala.algorithms.cp3.adhoc.others
+
 //UVA-00584
 object Bowling {
 
+  def countFrame(scores: Array[String], i: Int): Int = {
+    scores(i) match {
+      case a if a.charAt(0).isDigit =>
+        if (scores(i - 1)(0).isDigit) 1 else 0
+      case "/" | "X" => 1
+    }
+  }
+
   def calculateScore(scores: Array[String]): Int = {
-    def matchScore(scores: Array[String], i: Int, frame: Int, isBonus: Boolean): (Int, Int) = {
+    def matchScore(scores: Array[String], i: Int, isBonus: Boolean): Int = {
       var score = 0
-      var index = i
       scores(i) match {
         case a if a.charAt(0).isDigit =>
           score += a.toInt
-          if (i > 0 && scores(i - 1).charAt(0).isDigit) {
-            (score, frame + 1)
-          }
-          else (score, frame)
+          score
         case "/" => {
           //since we added this earlier, when we should have not
-          score += 10 - matchScore(scores, i - 1, frame, false)._1
+          score += 10 - matchScore(scores, i - 1, false)
           //add next one without bonus
           if (isBonus) {
-            val scoreTup = matchScore(scores, i + 1, frame + 1, false)
-            score += scoreTup._1
+            score += matchScore(scores, i + 1, false)
           }
-          (score, frame + 1)
+          score
         }
         case "X" => {
           score += 10
           if (isBonus) {
             //add next two without bonus
             for (j <- 1 to 2) {
-              val scoreTup = matchScore(scores, i + j, frame + 1, false)
-              score += scoreTup._1
+              score += matchScore(scores, i + j, false)
             }
           }
-          (score, frame + 1)
+          score
         }
       }
     }
@@ -41,9 +44,10 @@ object Bowling {
     var i = 0
     var frame = 0
     while (i < scores.size && frame <= 10) {
-      val scoreTup = matchScore(scores, i, frame, true)
-      frame = scoreTup._2
-      score += scoreTup._1
+      if (i > 0) {
+        frame += countFrame(scores, i)
+      }
+      score += matchScore(scores, i, true)
       i += 1
     }
     score

@@ -1,4 +1,4 @@
-package com.blogspot.ramannanda.scala.algorithms.easy
+package com.blogspot.ramannanda.scala.algorithms.search
 
 import com.blogspot.ramannanda.scala.algorithms.ds.{BinaryTree, Node}
 import com.typesafe.scalalogging.LazyLogging
